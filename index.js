@@ -31,7 +31,7 @@ module.exports = function(connect) {
 		options = options || {};
 		Store.call(this, options);
 		var expiration = this.expiration = options.expiration || defaults.expiration;
-		var coll = this.collection = schema.define(options.collection || defaults.collection, {
+		var coll = this.collection = schema.define('Session', {
 			sid: {
 				type: String,
 				index: true
@@ -42,7 +42,10 @@ module.exports = function(connect) {
 					return new Date();
 				}
 			}
+		}, {
+			tableName: options.collection || defaults.collection
 		});
+		
 		coll.validatesUniquenessOf('sid');
 		
 		// destroy all expired sessions after each create/update
