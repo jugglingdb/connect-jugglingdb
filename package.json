@@ -1,0 +1,19 @@
+{
+  "name": "connect-jugglingdb",
+  "version": "0.0.0",
+  "description": "JugglingDB session store for Connect",
+  "keywords": ["connect", "session", "express"],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kapouer/connect-jugglingdb.git"
+  },
+  "author": "Jérémy Lal <kapouer@melix.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kapouer/connect-jugglingdb/issues"
+  }
+}
