@@ -4,21 +4,19 @@
  * MIT Licensed, see LICENSE file
  */
 
-"use strict";
-
 /**
  * Default options
  */
 
 var defaults = {
 	collection: 'sessions',
-	expiration:  1000 * 60 * 60 * 24 * 14,
-	
+	expiration:  1000 * 60 * 60 * 24 * 14
 };
 
 function noop() {}
 
 module.exports = function(connect) {
+  "use strict";
   var Store = connect.session.Store;
 
   /**
@@ -55,7 +53,7 @@ module.exports = function(connect) {
 				obj.destroy(nexti);
 			}, next);
 		};
-  };
+  }
 
   /**
    * Inherit from `Store`.
@@ -77,7 +75,7 @@ module.exports = function(connect) {
     this.collection.findOne({sid: sid}, function(err, session) {
 			if (err) return callback(err);
 			if (!session) return callback();
-			if (!session.expires || new Date < session.expires) {
+			if (!session.expires || new Date() < session.expires) {
 				var obj = null;
 				try {
 					obj = JSON.parse(session.session);
@@ -150,7 +148,7 @@ module.exports = function(connect) {
 		var coll = this.collection;
     coll.findOne({sid: sid}, function(err, session) {
 			if (err) return callback(err);
-			if !session) return callback();
+			if (!session) return callback();
 			session.destroy(callback);
     });
   };
