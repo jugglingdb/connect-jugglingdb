@@ -16,22 +16,22 @@ var defaults = {
 function noop() {}
 
 module.exports = function(connect) {
-  "use strict";
-  var Store = connect.session.Store;
+	"use strict";
+	var Store = connect.session.Store;
 
-  /**
-   * Initialize JugglingStore with the given `options`.
-   * 
-   * @param {JugglingDB.Schema} schema
-   * @param {Object} options
-   * @api public
-   */
+	/**
+	 * Initialize JugglingStore with the given `options`.
+	 * 
+	 * @param {JugglingDB.Schema} schema
+	 * @param {Object} options
+	 * @api public
+	 */
 
-  function JugglingStore(schema, options) {
-    options = options || {};
-    Store.call(this, options);
-    var expiration = this.expiration = options.expiration || defaults.expiration;
-    var coll = this.collection = schema.define(options.collection || defaults.collection, {
+	function JugglingStore(schema, options) {
+		options = options || {};
+		Store.call(this, options);
+		var expiration = this.expiration = options.expiration || defaults.expiration;
+		var coll = this.collection = schema.define(options.collection || defaults.collection, {
 			sid: {
 				type: String,
 				index: true
@@ -53,26 +53,26 @@ module.exports = function(connect) {
 				obj.destroy(nexti);
 			}, next);
 		};
-  }
+	}
 
-  /**
-   * Inherit from `Store`.
-   */
+	/**
+	 * Inherit from `Store`.
+	 */
 
-  require('utils').inherits(JugglingStore, Store);
+	require('utils').inherits(JugglingStore, Store);
 
-  /**
-   * Attempt to fetch session by the given `sid`.
-   *
-   * @param {String} sid
-   * @param {Function} callback
-   * @api public
-   */
-  
-  JugglingStore.prototype.get = function(sid, callback) {
-    var self = this;
-    callback = callback || noop;
-    this.collection.findOne({sid: sid}, function(err, session) {
+	/**
+	 * Attempt to fetch session by the given `sid`.
+	 *
+	 * @param {String} sid
+	 * @param {Function} callback
+	 * @api public
+	 */
+	
+	JugglingStore.prototype.get = function(sid, callback) {
+		var self = this;
+		callback = callback || noop;
+		this.collection.findOne({sid: sid}, function(err, session) {
 			if (err) return callback(err);
 			if (!session) return callback();
 			if (!session.expires || new Date() < session.expires) {
@@ -87,18 +87,18 @@ module.exports = function(connect) {
 				self.destroy(sid, callback);
 			}
 		});
-  };
+	};
 
-  /**
-   * Commit the given `session` object associated with the given `sid`.
-   *
-   * @param {String} sid
-   * @param {Session} session
-   * @param {Function} callback
-   * @api public
-   */
+	/**
+	 * Commit the given `session` object associated with the given `sid`.
+	 *
+	 * @param {String} sid
+	 * @param {Session} session
+	 * @param {Function} callback
+	 * @api public
+	 */
 
-  JugglingStore.prototype.set = function(sid, session, callback) {
+	JugglingStore.prototype.set = function(sid, session, callback) {
 		callback = callback || noop;
 		var s = {};
 		try {
@@ -107,20 +107,20 @@ module.exports = function(connect) {
 			return callback(e);
 		}
 		if (session && session.cookie && session.cookie.expires) {
-      s.expires = new Date(session.cookie.expires);
-    } else {
-      // If there's no expiration date specified, it is
-      // browser-session cookie or there is no cookie at all,
-      // as per the connect docs.
-      //
-      // So we set the expiration to two-weeks from now
-      // - as is common practice in the industry (e.g Django) -
-      // or the default specified in the options.
-      var today = new Date();
-      s.expires = new Date(today.getTime() + this.expiration);
-    }
-    var coll = this.collection;
-    coll.findOne({sid: sid}, function(err, session) {
+			s.expires = new Date(session.cookie.expires);
+		} else {
+			// If there's no expiration date specified, it is
+			// browser-session cookie or there is no cookie at all,
+			// as per the connect docs.
+			//
+			// So we set the expiration to two-weeks from now
+			// - as is common practice in the industry (e.g Django) -
+			// or the default specified in the options.
+			var today = new Date();
+			s.expires = new Date(today.getTime() + this.expiration);
+		}
+		var coll = this.collection;
+		coll.findOne({sid: sid}, function(err, session) {
 			if (err) return callback(err);
 			if (session) {
 				session.updateAttributes(s, function(err) {
@@ -133,47 +133,47 @@ module.exports = function(connect) {
 				});
 			}
 		});
-  };
+	};
 
-  /**
-   * Destroy the session associated with the given `sid`.
-   *
-   * @param {String} sid
-   * @param {Function} callback
-   * @api public
-   */
+	/**
+	 * Destroy the session associated with the given `sid`.
+	 *
+	 * @param {String} sid
+	 * @param {Function} callback
+	 * @api public
+	 */
 
-  JugglingStore.prototype.destroy = function(sid, callback) {
+	JugglingStore.prototype.destroy = function(sid, callback) {
 		callback = callback || noop;
 		var coll = this.collection;
-    coll.findOne({sid: sid}, function(err, session) {
+		coll.findOne({sid: sid}, function(err, session) {
 			if (err) return callback(err);
 			if (!session) return callback();
 			session.destroy(callback);
-    });
-  };
+		});
+	};
 
-  /**
-   * Fetch number of sessions.
-   *
-   * @param {Function} callback
-   * @api public
-   */
+	/**
+	 * Fetch number of sessions.
+	 *
+	 * @param {Function} callback
+	 * @api public
+	 */
 
-  JugglingStore.prototype.length = function(callback) {
-    this.collection.count(callback);
-  };
+	JugglingStore.prototype.length = function(callback) {
+		this.collection.count(callback);
+	};
 
-  /**
-   * Clear all sessions.
-   *
-   * @param {Function} callback
-   * @api public
-   */
+	/**
+	 * Clear all sessions.
+	 *
+	 * @param {Function} callback
+	 * @api public
+	 */
 
-  JugglingStore.prototype.clear = function(callback) {
-    this.collection.destroyAll(callback);
-  };
-  
-  return JugglingStore;
+	JugglingStore.prototype.clear = function(callback) {
+		this.collection.destroyAll(callback);
+	};
+	
+	return JugglingStore;
 };
