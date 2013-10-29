@@ -50,9 +50,9 @@ module.exports = function(connect) {
 		
 		// destroy all expired sessions after each create/update
 		coll.afterSave = function(next) {
-			coll.iterate({
+			coll.iterate({where: {
 				expires: {lte: new Date()}
-			}, function(obj, nexti, i) {
+			}}, function(obj, nexti, i) {
 				obj.destroy(nexti);
 			}, next);
 		};
