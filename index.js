@@ -41,7 +41,8 @@ module.exports = function(connect) {
 				default: function () {
 					return new Date();
 				}
-			}
+			},
+			session: schema.constructor.JSON
 		}, {
 			tableName: options.collection || defaults.collection
 		});
@@ -79,13 +80,7 @@ module.exports = function(connect) {
 			if (err) return callback(err);
 			if (!session) return callback();
 			if (!session.expires || new Date() < session.expires) {
-				var obj = null;
-				try {
-					obj = JSON.parse(session.session);
-				} catch (e) {
-					return callback(e);
-				}
-				callback(null, obj);
+				callback(null, session.session);
 			} else {
 				self.destroy(sid, callback);
 			}
@@ -103,12 +98,9 @@ module.exports = function(connect) {
 
 	JugglingStore.prototype.set = function(sid, session, callback) {
 		callback = callback || noop;
-		var s = {};
-		try {
-			s.session = JSON.stringify(session);
-		} catch (e) {
-			return callback(e);
-		}
+		var s = {
+			session: session
+		};
 		if (session && session.cookie && session.cookie.expires) {
 			s.expires = new Date(session.cookie.expires);
 		} else {
