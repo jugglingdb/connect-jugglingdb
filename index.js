@@ -111,8 +111,7 @@ module.exports = function(connect) {
 			// So we set the expiration to two-weeks from now
 			// - as is common practice in the industry (e.g Django) -
 			// or the default specified in the options.
-			var today = new Date();
-			s.expires = new Date(today.getTime() + this.expiration);
+			s.expires = new Date(Date.now() + this.expiration);
 		}
 		var coll = this.collection;
 		coll.findOne({where: {sid: sid}}, function(err, session) {
