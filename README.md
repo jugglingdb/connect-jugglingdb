@@ -16,14 +16,18 @@ var schema = new JugglingDB.Schema('postgres', {
 });
 
 app.use(express.session({
-	store: new JugglingStore(schema, {
-		collection: 'sessions',						// collection name in DB
-		expiration: 1000 * 60 * 60 * 24		// 14 days
-	})
+  store: new JugglingStore(schema, {
+    table: 'sessions',                // juggling adapter table name
+    maxAge: 1000 * 60 * 60 * 24 * 14  // default duration in milliseconds
+  })
 }));
 ```
+
+Note that maxAge can also be set in session.cookie.maxAge, see
+http://www.senchalabs.org/connect/session.html
 
 Features
 --------
 
 Automatic cleanup of expired sessions
+
