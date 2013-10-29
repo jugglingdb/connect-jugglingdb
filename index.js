@@ -75,7 +75,7 @@ module.exports = function(connect) {
 	JugglingStore.prototype.get = function(sid, callback) {
 		var self = this;
 		callback = callback || noop;
-		this.collection.findOne({sid: sid}, function(err, session) {
+		this.collection.findOne({where: {sid: sid}}, function(err, session) {
 			if (err) return callback(err);
 			if (!session) return callback();
 			if (!session.expires || new Date() < session.expires) {
@@ -123,7 +123,7 @@ module.exports = function(connect) {
 			s.expires = new Date(today.getTime() + this.expiration);
 		}
 		var coll = this.collection;
-		coll.findOne({sid: sid}, function(err, session) {
+		coll.findOne({where: {sid: sid}}, function(err, session) {
 			if (err) return callback(err);
 			if (session) {
 				session.updateAttributes(s, function(err) {
@@ -149,7 +149,7 @@ module.exports = function(connect) {
 	JugglingStore.prototype.destroy = function(sid, callback) {
 		callback = callback || noop;
 		var coll = this.collection;
-		coll.findOne({sid: sid}, function(err, session) {
+		coll.findOne({where: {sid: sid}}, function(err, session) {
 			if (err) return callback(err);
 			if (!session) return callback();
 			session.destroy(callback);
