@@ -62,7 +62,7 @@ module.exports = function(connect) {
 	 * Inherit from `Store`.
 	 */
 
-	require('utils').inherits(JugglingStore, Store);
+	require('util').inherits(JugglingStore, Store);
 
 	/**
 	 * Attempt to fetch session by the given `sid`.
