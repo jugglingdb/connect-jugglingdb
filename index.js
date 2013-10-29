@@ -38,9 +38,7 @@ module.exports = function(connect) {
 			},
 			expires: {
 				type: Date,
-				default: function () {
-					return new Date();
-				}
+				index: true
 			},
 			session: schema.constructor.JSON
 		}, {
