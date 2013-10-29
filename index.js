@@ -44,7 +44,7 @@ module.exports = function(connect) {
 			},
 			session: schema.constructor.JSON
 		}, {
-			tableName: options.collection || defaults.collection
+			table: options.collection || defaults.collection
 		});
 		
 		coll.validatesUniquenessOf('sid');
