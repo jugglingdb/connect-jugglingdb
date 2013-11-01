@@ -21,6 +21,10 @@ app.use(express.session({
     maxAge: 1000 * 60 * 60 * 24 * 14  // default duration in milliseconds
   })
 }));
+
+schema.autoupdate(function(err) {
+  if (err) console.error(err);
+});
 ```
 
 Note that maxAge can also be set in session.cookie.maxAge, see
