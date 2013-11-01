@@ -55,6 +55,8 @@ module.exports = function(connect) {
 				obj.destroy(nexti);
 			}, next);
 		};
+
+		schema.autoupdate();
 	}
 
 	/**
