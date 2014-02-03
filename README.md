@@ -8,7 +8,7 @@ Usage
 
 ```
 var JugglingDB = require('jugglingdb');
-var JugglingStore = require('connect-jugglingdb');
+var JugglingStore = require('connect-jugglingdb')(express);
 
 // create JugglingDB schema object - can be any supported adapter
 var schema = new JugglingDB.Schema('postgres', {
