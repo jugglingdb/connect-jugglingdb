@@ -15,13 +15,13 @@ var defaults = {
 
 function noop() {}
 
-module.exports = function(connect) {
+module.exports = function(session) {
 	"use strict";
-	var Store = connect.session.Store;
+	var Store = session.Store;
 
 	/**
 	 * Initialize JugglingStore with the given `options`.
-	 * 
+	 *
 	 * @param {JugglingDB.Schema} schema
 	 * @param {Object} options
 	 * @api public
@@ -44,9 +44,9 @@ module.exports = function(connect) {
 		}, {
 			table: options.table || defaults.table
 		});
-		
+
 		coll.validatesUniquenessOf('sid');
-		
+
 		// destroy all expired sessions after each create/update
 		coll.afterSave = function(next) {
 			coll.iterate({where: {
@@ -70,7 +70,7 @@ module.exports = function(connect) {
 	 * @param {Function} callback
 	 * @api public
 	 */
-	
+
 	JugglingStore.prototype.get = function(sid, callback) {
 		var self = this;
 		callback = callback || noop;
@@ -159,6 +159,6 @@ module.exports = function(connect) {
 	JugglingStore.prototype.clear = function(callback) {
 		this.collection.destroyAll(callback);
 	};
-	
+
 	return JugglingStore;
 };
