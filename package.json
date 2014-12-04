@@ -1,6 +1,6 @@
 {
   "name": "connect-jugglingdb",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "JugglingDB session store for Connect",
   "keywords": ["connect", "session", "express"],
   "main": "index.js",
