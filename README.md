@@ -7,8 +7,9 @@ Usage
 -----
 
 ```
+var session = require('express-session');
 var JugglingDB = require('jugglingdb');
-var JugglingStore = require('connect-jugglingdb')(express);
+var JugglingStore = require('connect-jugglingdb')(session);
 
 // create JugglingDB schema object - can be any supported adapter
 var schema = new JugglingDB.Schema('postgres', {
