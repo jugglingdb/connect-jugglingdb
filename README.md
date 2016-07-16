@@ -7,24 +7,25 @@ Usage
 -----
 
 ```
-var session = require('express-session');
-var JugglingDB = require('jugglingdb');
-var JugglingStore = require('connect-jugglingdb')(session);
+const session = require('express-session');
+const JugglingDB = require('jugglingdb');
+const JugglingStore = require('connect-jugglingdb')(session);
+const JugglingStore = require('connect-jugglingdb')(express);//send express as a parameter here
 
 // create JugglingDB schema object - can be any supported adapter
-var schema = new JugglingDB.Schema('postgres', {
-  database: 'mydbname'
+const schema = new JugglingDB.Schema('postgres', {
+    database: 'mydbname'
 });
 
 app.use(express.session({
-  store: new JugglingStore(schema, {
-    table: 'sessions',                // juggling adapter table name
-    maxAge: 1000 * 60 * 60 * 24 * 14  // default duration in milliseconds
-  })
+    store: new JugglingStore(schema, {
+        table: 'sessions',                // juggling adapter table name
+        maxAge: 1000 * 60 * 60 * 24 * 14  // default duration in milliseconds
+    })
 }));
 
 schema.autoupdate(function(err) {
-  if (err) console.error(err);
+    if (err) console.error(err);
 });
 ```
 
